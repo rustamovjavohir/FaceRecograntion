@@ -1,6 +1,15 @@
+from collections import OrderedDict
+
 from rest_framework.response import Response as BaseResponse
 
-from utils.utils import get_json_data
+
+def get_json_data(success: bool = True, error=None, message: str = None, result=None, *args, **kwargs):
+    return OrderedDict([
+        ('success', success),
+        ('error', error),
+        ('message', message),
+        ('result', result)
+    ])
 
 
 class Response(BaseResponse):
