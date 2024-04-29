@@ -19,6 +19,6 @@ class FaceRecognitionView(APIView):
 class FaceRecognitionListView(APIView):
     service = FaceRecognitionService()
 
-    def get(self, request):
+    def post(self, request):
         response = self.service.face_list()
         return Response(data=response, message='success')
