@@ -4,7 +4,7 @@ from PIL import Image
 
 class FaceRecognitionService:
     def __init__(self):
-        self.url = "http://127.0.0.1:8008"
+        self.url = "http://127.0.0.1:8080"
         # self.url = "http://80.80.212.224:60033"
 
     def recognize_face(self, image_data: bytes):
