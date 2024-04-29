@@ -1,5 +1,6 @@
 from rest_framework.views import APIView
-from utils.responses import Response
+# from utils.responses import Response
+from rest_framework.response import Response
 from services.face_recognition import FaceRecognitionService
 from api.face_recognition.serializers import TrainFaceSerializer
 
@@ -13,7 +14,7 @@ class FaceRecognitionView(APIView):
         image_list = serializer.validated_data.get('image_list')
         user_id = serializer.validated_data.get('user_id')
         response = self.service.train_face(image_list, user_id)
-        return Response(data=response, message='success')
+        return Response(data=response)
 
 
 class FaceRecognitionListView(APIView):
@@ -21,4 +22,4 @@ class FaceRecognitionListView(APIView):
 
     def post(self, request):
         response = self.service.face_list()
-        return Response(data=response, message='success')
+        return Response(data=response)
