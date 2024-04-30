@@ -35,6 +35,7 @@ DEBUG = env.bool("DEBUG", default=False)
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS').split(',')
 HOST = env.str("HOST")
 CORS_ALLOW_ALL_ORIGINS = True
+FACE_RECOGNITION_URL = env.str("FACE_RECOGNITION_URL")
 
 # Application definition
 

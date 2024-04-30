@@ -3,23 +3,23 @@ import base64
 import requests
 from PIL import Image
 
+from config import settings
+
 
 class FaceRecognitionService:
     def __init__(self):
-        self.url = "http://127.0.0.1:8080"
-        # self.url = "http://80.80.212.224:60033"
+        self.url = settings.FACE_RECOGNITION_URL
 
-    def recognize_face(self, image_data: bytes):
+    def recognize_face(self, image_data: str):
         url = self.url + "/v1/vision/face/recognize"
-        # image_data = open(image_path, "rb").read()
-        response = requests.post(url, files={"image": image_data}).json()
+        response = requests.post(url, files={"image": self.base64_to_byte(image_data)}).json()
         return response
 
     def train_face(self, image_list: list, user_id: str):
         url = self.url + "/v1/vision/face/register"
         files = {}
-        for index, image_path in enumerate(image_list, start=1):
-            files = {f"image_{index}": base64.b64decode(image_path)}
+        for index, image_data in enumerate(image_list, start=1):
+            files = {f"image_{index}": self.base64_to_byte(image_data)}
         response = requests.post(url, files=files, data={"userid": user_id}).json()
         return response
 
@@ -33,11 +33,11 @@ class FaceRecognitionService:
         faces = requests.post(url).json()
         return faces
 
-    def set_confidence(self, image_data, min_confidence: int = 0.67):
+    def set_confidence(self, image_data: str, min_confidence: int = 0.67):
         url = self.url + "/v1/vision/face/recognize"
         response = requests.post(
             url,
-            files={"image": image_data},
+            files={"image": self.base64_to_byte(image_data)},
             data={"min_confidence": min_confidence},
         ).json()
         return response
@@ -62,3 +62,11 @@ class FaceRecognitionService:
             cropped.save("{}.jpg".format(userid))
 
         return response
+
+    def base64_to_byte(self, base64_string: str):
+        return base64.b64decode(base64_string)
+
+    def save_image(self, image_data: bytes, image_path: str):
+        with open(f"media/faces/{image_path}", "wb") as file:
+            file.write(image_data)
+        return image_path
