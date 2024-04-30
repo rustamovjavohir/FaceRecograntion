@@ -1,4 +1,6 @@
 import requests
+from rest_framework.authentication import BasicAuthentication
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 # from utils.responses import Response
 from rest_framework.response import Response
@@ -21,6 +23,8 @@ class FaceTrainView(APIView):
 
 class FaceListView(APIView):
     service = FaceRecognitionService()
+    authentication_classes = [BasicAuthentication]
+    permission_classes = [IsAuthenticated, ]
 
     def post(self, request):
         response = self.service.face_list()
@@ -40,6 +44,8 @@ class FaceRecognizeView(APIView):
 
 class FaceDeleteView(APIView):
     service = FaceRecognitionService()
+    authentication_classes = [BasicAuthentication]
+    permission_classes = [IsAuthenticated, ]
 
     def post(self, request):
         serializer = DeleteFaceSerializer(data=request.data)
