@@ -1,8 +1,7 @@
-from django.urls import path
+from django.urls import path, include
 
-from api.face_recognition.views import FaceRecognitionView, FaceRecognitionListView
+from api.face_recognition import urls as face_recognition_urls
 
 urlpatterns = [
-    path('face/recognize/', FaceRecognitionView.as_view()),
-    path('face/list/', FaceRecognitionListView.as_view()),
+    path("", include(face_recognition_urls)),
 ]

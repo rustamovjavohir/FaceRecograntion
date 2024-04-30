@@ -9,10 +9,14 @@ from config import settings
 class FaceRecognitionService:
     def __init__(self):
         self.url = settings.FACE_RECOGNITION_URL
+        self.min_confidence = 0.75
 
     def recognize_face(self, image_data: str):
         url = self.url + "/v1/vision/face/recognize"
-        response = requests.post(url, files={"image": self.base64_to_byte(image_data)}).json()
+        response = requests.post(url,
+                                 files={"image": self.base64_to_byte(image_data)},
+                                 data={"min_confidence": self.min_confidence}
+                                 ).json()
         return response
 
     def train_face(self, image_list: list, user_id: str):
@@ -61,6 +65,17 @@ class FaceRecognitionService:
             cropped = image.crop((x_min, y_min, x_max, y_max))
             cropped.save("{}.jpg".format(userid))
 
+        return response
+
+    def face_detection(self, image_data: str):
+        url = self.url + "/v1/vision/face"
+        response = requests.post(url, files={"image": self.base64_to_byte(image_data)}).json()
+        return response
+
+    def face_detection_and_recognize(self, image_data: str):
+        response = self.face_detection(image_data)
+        if response.get("predictions", None):
+            return self.recognize_face(image_data)
         return response
 
     def base64_to_byte(self, base64_string: str):
