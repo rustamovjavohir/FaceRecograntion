@@ -1,3 +1,5 @@
+import base64
+
 import requests
 from PIL import Image
 
@@ -17,7 +19,7 @@ class FaceRecognitionService:
         url = self.url + "/v1/vision/face/register"
         files = {}
         for index, image_path in enumerate(image_list, start=1):
-            files = {f"image_{index}": image_path}
+            files = {f"image_{index}": base64.b64decode(image_path)}
         response = requests.post(url, files=files, data={"userid": user_id}).json()
         return response
 
