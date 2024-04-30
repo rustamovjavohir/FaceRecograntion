@@ -9,7 +9,7 @@ from config import settings
 class FaceRecognitionService:
     def __init__(self):
         self.url = settings.FACE_RECOGNITION_URL
-        self.min_confidence = 0.75
+        self.min_confidence = 0.7
 
     def recognize_face(self, image_data: str):
         url = self.url + "/v1/vision/face/recognize"
