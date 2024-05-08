@@ -32,7 +32,8 @@ SECRET_KEY = env.str('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool("DEBUG", default=False)
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS').split(',')
+# ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS').split(',')
+ALLOWED_HOSTS = ['*']
 HOST = env.str("HOST")
 CORS_ALLOW_ALL_ORIGINS = True
 FACE_RECOGNITION_URL = env.str("FACE_RECOGNITION_URL")
