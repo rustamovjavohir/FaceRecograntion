@@ -54,6 +54,7 @@ LOCAL_APPS = [
 
 THIRD_APPS = [
     'environs',
+    'corsheaders',
 ]
 
 INSTALLED_APPS = DEFAULT_APPS + LOCAL_APPS + THIRD_APPS
