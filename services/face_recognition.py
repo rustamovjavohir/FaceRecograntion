@@ -25,7 +25,7 @@ class FaceRecognitionService:
                                  )
         if response.status_code == 200:
             for item in response.json()["predictions"]:
-                item["userid"] = self.get_user_by_telegram_id(item["userid"]).full_name
+                item["userid"] = getattr(self.get_user_by_telegram_id(item["userid"]), "full_name", "Unknown")
         return response.json()
 
     def train_face(self, image_list: list, user_id: str):
