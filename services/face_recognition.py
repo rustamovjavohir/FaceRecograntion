@@ -22,6 +22,11 @@ class FaceRecognitionService:
 
     def recognize_face(self, image_data: str):
         url = self.url + "/v1/vision/face/recognize"
+        _data = {
+            "success": False,
+            "predictions": [],
+            "duration": 0
+        }
         response = requests.post(url,
                                  files={"image": self.base64_to_byte(image_data)},
                                  data={"min_confidence": self.min_confidence}
