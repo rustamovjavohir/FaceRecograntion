@@ -18,9 +18,9 @@ class FaceRecognitionService:
                                  files={"image": self.base64_to_byte(image_data)},
                                  data={"min_confidence": self.min_confidence}
                                  )
-        if response.status_code == 200:
-            for item in response.json()["predictions"]:
-                item["userid"] = self.get_user_data_by_id(item["userid"]).get("full_name")
+        # if response.status_code == 200:
+        #     for item in response.json()["predictions"]:
+        #         item["userid"] = self.get_user_data_by_id(item["userid"]).get("full_name")
         return response.json()
 
     def train_face(self, image_list: list, user_id: str):
