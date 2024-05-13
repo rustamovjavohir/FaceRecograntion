@@ -3,6 +3,7 @@ import base64
 import requests
 from PIL import Image
 
+from apps.auth_user.models import Staff
 from config import settings
 
 
@@ -11,6 +12,10 @@ class FaceRecognitionService:
         self.url = settings.FACE_RECOGNITION_URL
         self.intranet_url = settings.INTRANET_URL
         self.min_confidence = 0.75
+        self.staff_model = Staff
+
+    def get_user_by_telegram_id(self, telegram_id: int):
+        return self.staff_model.objects.get(telegram_id=telegram_id)
 
     def recognize_face(self, image_data: str):
         url = self.url + "/v1/vision/face/recognize"
@@ -18,9 +23,9 @@ class FaceRecognitionService:
                                  files={"image": self.base64_to_byte(image_data)},
                                  data={"min_confidence": self.min_confidence}
                                  )
-        # if response.status_code == 200:
-        #     for item in response.json()["predictions"]:
-        #         item["userid"] = self.get_user_data_by_id(item["userid"]).get("full_name")
+        if response.status_code == 200:
+            for item in response.json()["predictions"]:
+                item["userid"] = self.get_user_by_telegram_id(item["userid"]).full_name
         return response.json()
 
     def train_face(self, image_list: list, user_id: str):

@@ -19,3 +19,23 @@ class User(AbstractUser):
         verbose_name_plural = 'Пользователи'
 
     objects = UserManager()
+
+
+class Staff(BaseModel):
+    full_name = models.CharField(max_length=255,
+                                 verbose_name='ФИО')
+    department = models.CharField(max_length=255,
+                                  null=True, blank=True,
+                                  verbose_name='Отдел')
+    telegram_id = models.BigIntegerField(unique=True,
+                                         verbose_name='Telegram ID')
+
+    def __str__(self):
+        return self.full_name
+
+    class Meta:
+        indexes = [
+            models.Index(fields=['telegram_id'])
+        ]
+        verbose_name = 'Сотрудник'
+        verbose_name_plural = 'Сотрудники'
