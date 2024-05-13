@@ -27,9 +27,12 @@ class FaceRecognitionService:
                                  data={"min_confidence": self.min_confidence}
                                  )
         if response.status_code == 200:
-            for item in response.json()["predictions"]:
+            _data = response.json()
+            _list = _data["predictions"]
+            for item in _list:
                 item["userid"] = getattr(self.get_user_by_telegram_id(item["userid"]), "full_name", "Unknown")
-        return response.json()
+            _data["predictions"] = _list
+        return _data
 
     def train_face(self, image_list: list, user_id: str):
         url = self.url + "/v1/vision/face/register"

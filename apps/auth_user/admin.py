@@ -1,5 +1,5 @@
 from django.contrib import admin
-from apps.auth_user.models import User
+from apps.auth_user.models import User, Staff
 
 
 @admin.register(User)
@@ -24,3 +24,7 @@ class UserAdmin(admin.ModelAdmin):
     )
     readonly_fields = ('full_name', 'last_login', 'date_joined')
 
+
+@admin.register(Staff)
+class StaffAdmin(admin.ModelAdmin):
+    list_display = ('id', 'full_name', 'department', 'telegram_id')
