@@ -37,6 +37,7 @@ ALLOWED_HOSTS = ['*']
 HOST = env.str("HOST")
 CORS_ALLOW_ALL_ORIGINS = True
 FACE_RECOGNITION_URL = env.str("FACE_RECOGNITION_URL")
+INTRANET_URL = env.str("INTRANET_URL")
 
 # Application definition
 

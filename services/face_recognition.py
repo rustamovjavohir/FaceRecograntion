@@ -9,6 +9,7 @@ from config import settings
 class FaceRecognitionService:
     def __init__(self):
         self.url = settings.FACE_RECOGNITION_URL
+        self.intranet_url = settings.INTRANET_URL
         self.min_confidence = 0.75
 
     def recognize_face(self, image_data: str):
@@ -16,8 +17,11 @@ class FaceRecognitionService:
         response = requests.post(url,
                                  files={"image": self.base64_to_byte(image_data)},
                                  data={"min_confidence": self.min_confidence}
-                                 ).json()
-        return response
+                                 )
+        if response.status_code == 200:
+            for item in response.json()["predictions"]:
+                item["userid"] = self.get_user_data_by_id(item["userid"]).get("full_name")
+        return response.json()
 
     def train_face(self, image_list: list, user_id: str):
         url = self.url + "/v1/vision/face/register"
@@ -85,3 +89,10 @@ class FaceRecognitionService:
         with open(f"media/faces/{image_path}", "wb") as file:
             file.write(image_data)
         return image_path
+
+    def get_user_data_by_id(self, user_id: str):
+        url = self.intranet_url + "/api/staffs/{}/".format(user_id)
+        response = requests.get(url).json()
+        if response.get("success"):
+            return response.get("result")
+        return {"full_name": "Unknown"}
