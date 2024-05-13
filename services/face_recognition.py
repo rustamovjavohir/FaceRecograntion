@@ -15,9 +15,10 @@ class FaceRecognitionService:
         self.staff_model = Staff
 
     def get_user_by_telegram_id(self, telegram_id):
-        if telegram_id == "Unknown":
+        try:
+            return self.staff_model.objects.get(telegram_id=telegram_id)
+        except self.staff_model.DoesNotExist:
             return None
-        return self.staff_model.objects.get(telegram_id=telegram_id)
 
     def recognize_face(self, image_data: str):
         url = self.url + "/v1/vision/face/recognize"
