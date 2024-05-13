@@ -17,7 +17,7 @@ class FaceRecognitionService:
     def get_user_by_telegram_id(self, telegram_id):
         try:
             return self.staff_model.objects.get(telegram_id=telegram_id)
-        except self.staff_model.DoesNotExist:
+        except Exception as e:
             return None
 
     def recognize_face(self, image_data: str):
