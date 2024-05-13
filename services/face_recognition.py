@@ -35,7 +35,7 @@ class FaceRecognitionService:
             _data = response.json()
             _list = _data["predictions"]
             for item in _list:
-                item["userid"] = getattr(self.get_user_by_telegram_id(item["userid"]), "full_name", "unknown")
+                item["full_name"] = getattr(self.get_user_by_telegram_id(item["userid"]), "full_name", "unknown")
             _data["predictions"] = _list
         return _data
 
