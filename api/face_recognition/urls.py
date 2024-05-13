@@ -4,10 +4,10 @@ from api.face_recognition.views import (FaceTrainView, FaceListView, TestView, F
                                         FaceDeleteView)
 
 urlpatterns = [
-    path('face/train/', FaceTrainView.as_view()),
-    path('face/recognize/', FaceRecognizeView.as_view()),
-    path('face/list/', FaceListView.as_view()),
-    path('face/delete/', FaceDeleteView.as_view()),
-    path('face/detection/', FaceDetectionView.as_view()),
-    path('face/test/', TestView.as_view()),
+    path('train/', FaceTrainView.as_view()),
+    path('recognize/', FaceRecognizeView.as_view()),
+    path('list/', FaceListView.as_view()),
+    path('delete/', FaceDeleteView.as_view()),
+    path('detection/', FaceDetectionView.as_view()),
+    path('test/', TestView.as_view()),
 ]
