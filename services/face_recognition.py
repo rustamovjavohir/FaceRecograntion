@@ -14,7 +14,9 @@ class FaceRecognitionService:
         self.min_confidence = 0.75
         self.staff_model = Staff
 
-    def get_user_by_telegram_id(self, telegram_id: int):
+    def get_user_by_telegram_id(self, telegram_id):
+        if telegram_id == "Unknown":
+            return None
         return self.staff_model.objects.get(telegram_id=telegram_id)
 
     def recognize_face(self, image_data: str):
