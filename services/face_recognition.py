@@ -5,6 +5,7 @@ from PIL import Image
 
 from apps.auth_user.models import Staff
 from config import settings
+from threading import Thread
 
 
 class FaceRecognitionService:
@@ -36,6 +37,8 @@ class FaceRecognitionService:
             _list = _data["predictions"]
             for item in _list:
                 item["full_name"] = getattr(self.get_user_by_telegram_id(item["userid"]), "full_name", "unknown")
+                thread_send_check_in = Thread(target=self.send_check_in, args=(item["userid"],))
+                thread_send_check_in.start()
             _data["predictions"] = _list
         return _data
 
@@ -112,3 +115,8 @@ class FaceRecognitionService:
         if response.get("success"):
             return response.get("result")
         return {"full_name": "Unknown"}
+
+    def send_check_in(self, user_id: str):
+        url = self.intranet_url + "/api/timekeeping/check-by-face/"
+        response = requests.post(url, data={"worker_id": user_id}).json()
+        return response
